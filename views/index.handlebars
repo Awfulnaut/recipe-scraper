@@ -1,26 +1,13 @@
-{{> navbar/navbar }}
+{{> navbar }}
 
 <div class="articles container">
   <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          Featured
-        </div>
-        <div class="card-body">
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Save Recipe</a>
-        </div>
-      </div>
-    </div>
+    {{> article-card }}
   </div>
 </div>
 
+<hr><hr>
 <div id="wrapper">
-  <h1>Note Scraper</h1>
-  <h2>
-    <i>If you can do this...the homework should be no problem.</i>
-  </h2>
   <div id="articles"></div>
   <div id="notes"></div>
 </div>

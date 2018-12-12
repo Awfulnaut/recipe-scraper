@@ -1,4 +1,20 @@
-body { background-color: #F2F6D0 }
+body {
+  background-image: url(../images/background.png);
+}
+
+nav {
+  margin-bottom: 15px;
+  box-shadow: 0 0 15px rgba(0,0,0, 0.5);
+}
+
+.navbar-nav {
+  float: right;
+}
+
+.nav-item {
+  margin-left: 5px;
+}
+
 #wrapper {
   width: 960px;
   margin-left: auto;
