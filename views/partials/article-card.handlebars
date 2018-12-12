@@ -1,5 +1,38 @@
-<ul>
 {{#each articles}}
-  <li>{{@index}}. {{title}}</li>
+<div class="card mb-2" data-id="{{_id}}">
+  <div class="card-header">
+    {{title}}
+  </div>
+  <div class="card-body">
+    {{!-- description and byline not working?? --}}
+    <p class="card-text">{{description}}</p>
+    <p class="card-text">{{byline}}</p>
+    <button data-toggle="modal" data-target="#modal-{{_id}}" class="btn btn-primary btn-write-note">Write Note</button>
+    <a class="btn btn-success" href="https://www.delish.com{{link}}" target="_blank">View Recipe</a>
+  </div>
+
+  <div class="modal fade" id="modal-{{_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{title}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h6 class="text-center">Notes</h6>
+          <div class="article-notes">
+
+          </div>
+          <textarea class="noteinput" placeholder="New Note" rows="4" cols="60"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success btn-save" data-dismiss="modal">Save note</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {{/each}}
-</ul>

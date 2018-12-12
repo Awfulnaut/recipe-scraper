@@ -4,22 +4,26 @@ module.exports = function (app, cheerio, axios) {
     
   // A GET route for scraping the echoJS website
   app.get("/scrape", function(req, res) {
-    axios.get("http://www.allrecipes.com/").then(function(response) {
+    axios.get("https://www.delish.com/cooking/recipe-ideas/").then(function(response) {
       var $ = cheerio.load(response.data);
 
-      $(".fixed-recipe-card").each(function(i, element) {
+      $(".full-item").each(function(i, element) {
         var result = {};
 
         // Add the text, href, and descruption to the result object
         result.title = $(this)
-          .find(".fixed-recipe-card__h3")
+          .find("a.full-item-title.item-title")
           .text()
-          .trim()
+          .trim();
         result.link = $(this)
-          .find(".fixed-recipe-card__info > a")
-          .attr("href")
+          .find("a.full-item-title.item-title")
+          .attr("href");
         result.description = $(this)
-          .find(".fixed-recipe-card__description")
+          .find(".full-item-dek")
+          .text()
+          .trim();
+        result.byline = $(this)
+          .find(".full-item-byline")
           .text()
           .trim();
 
@@ -34,9 +38,7 @@ module.exports = function (app, cheerio, axios) {
         console.log(result)
       });
 
-      // Send a message to the client
       res.json("Scrape Complete");
-      location.reload();
     });
   });
 
@@ -74,11 +76,9 @@ module.exports = function (app, cheerio, axios) {
         return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
       })
       .then(function(dbArticle) {
-        // If we were able to successfully update an Article, send it back to the client
         res.json(dbArticle);
       })
       .catch(function(err) {
-        // If an error occurred, send it to the client
         res.json(err);
       });
   });
