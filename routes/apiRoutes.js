@@ -3,6 +3,7 @@ var db = require('../models');
 module.exports = function (app, cheerio, axios) {
     
   // A GET route for scraping the echoJS website
+  // TODO figure out how to deal with duplicate scraped data
   app.get("/scrape", function(req, res) {
     axios.get("https://www.delish.com/cooking/recipe-ideas/").then(function(response) {
       var $ = cheerio.load(response.data);
@@ -19,11 +20,11 @@ module.exports = function (app, cheerio, axios) {
           .find("a.full-item-title.item-title")
           .attr("href");
         result.description = $(this)
-          .find(".full-item-dek")
+          .find(".full-item-dek p")
           .text()
           .trim();
         result.byline = $(this)
-          .find(".full-item-byline")
+          .find(".byline-name")
           .text()
           .trim();
 
@@ -35,7 +36,6 @@ module.exports = function (app, cheerio, axios) {
           .catch(function(err) {
             console.log(err);
           });
-        console.log(result)
       });
 
       res.json("Scrape Complete");
@@ -70,9 +70,6 @@ module.exports = function (app, cheerio, axios) {
     // Create a new note and pass the req.body to the entry
     db.Note.create(req.body)
       .then(function(dbNote) {
-        // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
-        // { new: true } tells the query that we want it to return the updated Article -- it returns the original by default
-        // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
         return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
       })
       .then(function(dbArticle) {
@@ -82,4 +79,6 @@ module.exports = function (app, cheerio, axios) {
         res.json(err);
       });
   });
+
+  //TODO Delete route
 }
