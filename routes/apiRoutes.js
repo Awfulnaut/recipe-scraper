@@ -2,8 +2,7 @@ var db = require('../models');
 
 module.exports = function (app, cheerio, axios) {
     
-  // A GET route for scraping the echoJS website
-  // TODO figure out how to deal with duplicate scraped data
+  // A GET route for scraping data
   app.get("/scrape", function(req, res) {
     axios.get("https://www.delish.com/cooking/recipe-ideas/").then(function(response) {
       var $ = cheerio.load(response.data);
