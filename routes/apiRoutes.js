@@ -23,6 +23,7 @@ module.exports = function (app, cheerio, axios) {
           .find(".full-item-dek p")
           .text()
           .trim();
+        // TODO fix occasional repeated bylines
         result.byline = $(this)
           .find(".byline-name")
           .text()
