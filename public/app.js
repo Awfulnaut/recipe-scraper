@@ -3,32 +3,22 @@ $(document).ready(function() {
   $(".btn-write-note").on("click", function(){
     var thisId = $(this).closest(".card").attr("data-id");
     
+    // Get the article data
     $.ajax({
       method: "GET",
       url: "/articles/" + thisId
     })
-      // With that done, add the note information to the page
       .then(function(data) {
+        // Add the note information to the page
         console.log(data);
         var notesDivSelector = "#modal-" + data._id + " .article-notes"
         $(notesDivSelector).empty();
-        // The title of the article
-        // $(".article-notes").append("<h2>" + data.title + "</h2>");
-        // // An input to enter a new title
-        // $(".article-notes").append("<input id='titleinput' name='title' >");
-        // // A textarea to add a new note body
-        // $(".article-notes").append("<textarea id='bodyinput' name='body'></textarea>");
-        // // A button to submit a new note, with the id of the article saved to it
-        // $(".article-notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
   
-        // If there's a note in the article
+        // If there's a note associated with the article
         if (data.note) {
-          var $noteBody = $("<p>").text(data.note.body)
+          // TODO Add delete button and hook up to a delete route
+          var $noteBody = $('<p class="note">' + data.note.body + "</p>")
           $(notesDivSelector).append($noteBody)
-          // Place the title of the note in the title input
-          // $("#titleinput").val(data.note.title);
-          // Place the body of the note in the body textarea
-          // $("#bodyinput").val(data.note.body);
         }
       });
   })
@@ -51,7 +41,6 @@ $(document).ready(function() {
     $(noteInputSelector).val("");
   })
 
-  // TODO fix this (button not working)
   $("#btn-scrape").on("click", function(){
     $.ajax({
       method: "GET",
